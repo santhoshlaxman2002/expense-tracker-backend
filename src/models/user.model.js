@@ -18,7 +18,7 @@ export default class UserModel {
     try {
       const pool = Model.getConnection();
       const result = await pool.query(
-        "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) Returning *",
+        "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) Returning id, name, email",
         [name, email, password]
       );
       return result.rows[0];
