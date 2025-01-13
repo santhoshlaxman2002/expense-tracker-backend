@@ -15,7 +15,7 @@ export default class User {
       if (!isMatch) {
         return Response.sendUnauthorized(res, "Invalid credentials");
       }
-      const token = await JWT.sign({ email });
+      const token = await JWT.sign({ "user_id":result.id });
       return Response.sendSuccess(res, { token }, "Login success");
     } catch (err) {
       console.log(err);

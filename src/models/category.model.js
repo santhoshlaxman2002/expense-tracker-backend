@@ -5,7 +5,7 @@ export default class CategoryModel {
     try {
       const pool = await Model.getConnection();
       const result = await pool.query(
-        "SELECT * FROM categories where user_id = $1 and where deleted_at is null",
+        "SELECT * FROM categories where user_id = $1 and deleted_at is null",
         [userId]
       );
       return result.rows;
@@ -19,7 +19,7 @@ export default class CategoryModel {
     try {
       const pool = await Model.getConnection();
       const result = await pool.query(
-        "SELECT * FROM categories WHERE id = $1 where deleted_at is null",
+        "SELECT * FROM categories WHERE id = $1 and deleted_at is null",
         [id]
       );
       return result.rows[0];
@@ -29,10 +29,10 @@ export default class CategoryModel {
     }
   }
 
-  static createCategory(name, userId) {
+  static async createCategory(name, userId) {
     try {
       const pool = Model.getConnection();
-      const result = pool.query(
+      const result = await pool.query(
         "INSERT INTO categories (name, user_id) VALUES ($1, $2) RETURNING *",
         [name, userId]
       );
@@ -47,7 +47,7 @@ export default class CategoryModel {
     try {
       const pool = await Model.getConnection();
       const result = await pool.query(
-        "UPDATE categories SET name = $1 WHERE id = $2 RETURNING *",
+        "UPDATE categories SET name = $1, updated_at = current_timestamp WHERE id = $2 RETURNING *",
         [name, id]
       );
       return result.rows[0];
@@ -57,10 +57,10 @@ export default class CategoryModel {
     }
   }
 
-  static deleteCategory(id) {
+  static async deleteCategory(id) {
     try {
       const pool = Model.getConnection();
-      const result = pool.query(
+      const result = await pool.query(
         "UPDATE categories SET deleted_at = current_timestamp WHERE id = $1 RETURNING *",
         [id]
       );

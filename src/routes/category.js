@@ -1,5 +1,6 @@
 import express from "express";
 import CategoryController from "../controllers/category.controller.js";
+import Auth from "../middleware/auth.middleware.js";
 
 class Category {
   static router;
@@ -10,6 +11,7 @@ class Category {
   }
 
   initRouter() {
+    this.router.use(Auth.authenticate);
     this.router.get("/", CategoryController.getCategories);
     this.router.get("/:id", CategoryController.getCateogryById);
     this.router.post("/", CategoryController.createCategory);

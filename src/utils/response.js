@@ -1,5 +1,4 @@
 export default class Response {
-    
   static sendSuccess(res, data = {}, message = "Success", statusCode = 200) {
     res.status(statusCode).json({
       success: true,
@@ -29,10 +28,6 @@ export default class Response {
     this.sendError(res, message, 401);
   }
 
-  static sendInternalServerError(res, message = "Internal Server Error") {
-    this.sendError(res, message, 500);
-  }
-
   static sendForbidden(res, message = "Forbidden") {
     this.sendError(res, message, 403);
   }
@@ -43,6 +38,10 @@ export default class Response {
 
   static sendConflict(res, message = "Conflict") {
     this.sendError(res, message, 409);
+  }
+
+  static sendInternalServerError(res, message = "Internal Server Error") {
+    this.sendError(res, message, 500);
   }
 
   static sendCreated(
